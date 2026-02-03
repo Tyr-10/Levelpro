@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Crear Institution Admin</h2>
+
+<form method="post" action="/super/users/save-admin">
+
+    <label>Email:</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <label>Institución:</label><br>
+    <select name="institutionId" required>
+        <option th:each="inst : ${institutions}"
+                th:value="${inst.id}"
+                th:text="${inst.name}">
+        </option>
+    </select><br><br>
+
+    <button type="submit">Crear Admin</button>
+</form>
+
+</body>
+</html>

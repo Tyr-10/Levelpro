@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Usuario</title>
+</head>
+<body>
+
+<h2>Crear usuario: <span th:text="${role}"></span></h2>
+
+<form method="post" action="/super/users/save">
+
+    <input type="hidden" name="role" th:value="${role}" />
+
+    <label>Email:</label><br>
+    <input type="email" name="email" required><br><br>
+
+    <label>Password:</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <!-- INSTITUCIÓN (PARA TODOS) -->
+    <label>Institución:</label><br>
+    <select name="institutionId" required>
+        <option value="">-- Seleccione una institución --</option>
+        <option th:each="inst : ${institutions}"
+                th:value="${inst.id}"
+                th:text="${inst.name + ' (' + inst.domain + ')'}">
+        </option>
+    </select><br><br>
+
+    <!-- SOLO DOCENTE -->
+    <div th:if="${role.name() == 'DOCENTE'}">
+        <label>Área / materia:</label><br>
+        <input type="text" name="teacherArea"><br><br>
+    </div>
+
+    <!-- SOLO ESTUDIANTE -->
+    <div th:if="${role.name() == 'ESTUDIANTE'}">
+        <label>Grupo(s) asignados:</label><br>
+        <input type="text" name="studentGroups"><br><br>
+    </div>
+
+    <button type="submit">Crear</button>
+</form>
+
+<br>
+<a href="/super/home">Cancelar</a>
+
+</body>
+</html>

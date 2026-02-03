@@ -13,48 +13,56 @@ public class AcademicLevel {
     private Long id;
 
     /**
-     * Nombre que la institución quiera darle:
-     * Facultad, Programa, Grupo, Curso, Semestre, etc.
+     * Nombre totalmente libre:
+     * Campus, Facultad, Jornada, Materia, Cohorte, etc.
      */
     @Column(nullable = false)
     private String name;
 
     /**
-     * Nivel jerárquico numérico:
-     * 1 = institución
-     * 2 = siguiente nivel
-     * 3 = siguiente…
+     * Orden jerárquico (1..N)
      */
     @Column(nullable = false)
     private int levelOrder;
 
     /**
+     * Define si en este nivel se pueden asignar ESTUDIANTES
+     */
+    @Column(nullable = false)
+    private boolean allowsStudents;
+
+    /**
+     * Define si en este nivel se pueden asignar DOCENTES
+     */
+    @Column(nullable = false)
+    private boolean allowsTeachers;
+
+    /**
      * Relación con la institución
-     * IMPRESCINDIBLE para evitar cruces
      */
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "institution_id")
     private Institution institution;
 
     /**
-     * Nivel padre (self reference)
-     * Permite jerarquía infinita
+     * Jerarquía
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private AcademicLevel parent;
 
-    /**
-     * Hijos del nivel actual
-     */
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<AcademicLevel> children = new HashSet<>();
 
-    /**
-     * Permite desactivar niveles sin borrar
-     */
     @Column(nullable = false)
     private boolean active = true;
+
+    // getters y setters
+
+
+
+
+    
 
     /* =========================
        GETTERS & SETTERS
